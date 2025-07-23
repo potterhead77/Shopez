@@ -1,27 +1,44 @@
 package com.shopez.app.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import org.springframework.boot.autoconfigure.web.WebProperties;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer productId;
     private String productName;
     private String productDescription;
     private Double productDiscountedPrice;
     private Double productActualPrice;
 
-    public Integer getId() {
-        return id;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name="product_images",
+    joinColumns = {
+            @JoinColumn(name = "product_id")
+    },
+    inverseJoinColumns = {
+            @JoinColumn(name  = "image_id")
+    }
+    )
+    private Set<ImageModel> productImages;
+
+    public Set<ImageModel> getProductImages() {
+        return productImages;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setProductImages(Set<ImageModel> productImages) {
+        this.productImages = productImages;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {
@@ -56,8 +73,8 @@ public class Product {
         this.productActualPrice = productActualPrice;
     }
 
-    public Product(Integer id, String productName, String productDescription, Double productDiscountedPrice, Double productActualPrice) {
-        this.id = id;
+    public Product(Integer productId, String productName, String productDescription, Double productDiscountedPrice, Double productActualPrice) {
+        this.productId = productId;
         this.productName = productName;
         this.productDescription = productDescription;
         this.productDiscountedPrice = productDiscountedPrice;
