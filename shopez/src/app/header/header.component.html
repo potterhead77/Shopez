@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+  <span>
+    E-commerce Application
+  </span>
+  <span class="space-buttons"></span>
+  <button *ngIf="!isLoggedIn()" routerLink="/login" mat-raised-button color="primary">
+    <span>
+      Login
+    </span>
+  </button>
+  <button *ngIf="isLoggedIn()" (click)="logout()" mat-raised-button color="warn">
+      Logout
+  </button>
+</mat-toolbar>
+
+<mat-toolbar color="primary" *ngIf="isLoggedIn()">
+  <button mat-raised-button color="primary" routerLink="/">Home</button>
+  <button mat-raised-button *ngIf="isAdmin()" color="primary" routerLink="/addNewProduct">Add New Product</button>
+</mat-toolbar>
