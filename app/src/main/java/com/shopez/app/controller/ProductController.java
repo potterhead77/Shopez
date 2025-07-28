@@ -8,13 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -61,5 +60,21 @@ public class ProductController {
             imageModels.add(imageModel);
         }
         return imageModels;
+    }
+
+    @GetMapping("/getAllProducts")
+    public ResponseEntity<List<Product>> getAllProducts(){
+        return new ResponseEntity<>(productService.getAllProducts(),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteProduct/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Integer id){
+        try {
+            productService.deleteProduct(id);
+            return new ResponseEntity<>("Product deleted successfully", HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("Failed to delete product" + e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 }
