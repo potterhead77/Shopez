@@ -2,7 +2,12 @@
 import { ProductService } from '../_services/product.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Product } from '../_model/product.model';
-import { ChangeDetectorRef } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ShowProductImagesDialogComponent } from '../show-product-images-dialog/show-product-images-dialog.component';
+import { ImageProcessingService } from '../image-processing.service';
+import { map } from 'rxjs/operators';
+
+
 
 @Component({
   selector: 'app-show-product-details',
@@ -12,16 +17,23 @@ import { ChangeDetectorRef } from '@angular/core';
 export class ShowProductDetailsComponent implements OnInit {
 
   productDetails: Product[] = [];
-  displayedColumns: string[] = ['productId', 'productName', 'productDescription', 'productDiscountedPrice','productActualPrice','Delete'];
+  displayedColumns: string[] = ['productId', 'productName', 'productDescription', 'productDiscountedPrice','productActualPrice','Images','Edit','Delete'];
   constructor(private productService: ProductService,
-              private cdRef: ChangeDetectorRef
+              public imagesDialog: MatDialog,
+              private imageProcessingService : ImageProcessingService 
+
   ){ }
   ngOnInit(): void {
     this.getAllProducts();
   }
 
   public getAllProducts(){
-      this.productService.getAllProducts().subscribe(
+      this.productService.getAllProducts()
+      .pipe(
+          map((x: Product[],i)=> x.map((product: Product)=> this.imageProcessingService.createImages(product))
+        ) 
+      )
+      .subscribe(
         (resp: Product[]) =>{
           console.log(resp);
           this.productDetails = [...resp];
@@ -42,6 +54,16 @@ export class ShowProductDetailsComponent implements OnInit {
       console.error("Delete failed:", err);
     }
   });
+  }
+
+  showProductImages(product: Product ){
+    this.imagesDialog.open(ShowProductImagesDialogComponent,{
+      data: {
+          images: product.productImages
+      },
+      height: '500px',
+      width: '800px'
+    });
   }
 
 }
