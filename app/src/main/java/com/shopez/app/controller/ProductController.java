@@ -24,21 +24,23 @@ public class ProductController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/addNewProduct", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<?> addNewProduct(@RequestPart("product") Product product,
-                                           @RequestPart("imageFile") MultipartFile[] files) {
+    public ResponseEntity<?> addOrUpdateProduct(@RequestPart("product") Product product,
+                                                @RequestPart(value ="imageFile",required = false) MultipartFile[] files) {
         try {
-            // Validate input: ID must not be set manually
-            if (product.getProductId() != null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Product ID must be null when creating a new product.");
+            // Convert files to image entities if provided
+            if (files != null && files.length > 0) {
+                Set<ImageModel> images = uploadImage(files);
+                product.setProductImages(images);
             }
 
-            // Convert files to image entities
-            Set<ImageModel> images = uploadImage(files);
-            product.setProductImages(images); // Set images on product
-
-            // Save product with images (cascade handles images)
-            Product savedProduct = productService.addNewProduct(product);
+            Product savedProduct;
+            if (product.getProductId() != null) {
+                // Update flow
+                savedProduct = productService.updateProduct(product.getProductId(), product);
+            } else {
+                // Create flow
+                savedProduct = productService.addNewProduct(product);
+            }
 
             return ResponseEntity.status(HttpStatus.OK).body(savedProduct);
 
@@ -47,6 +49,7 @@ public class ProductController {
                     .body("Error while processing images: " + e.getMessage());
         }
     }
+
 
     public Set<ImageModel> uploadImage(MultipartFile[] multipartFiles) throws IOException {
         Set<ImageModel> imageModels = new HashSet<>();
@@ -62,11 +65,13 @@ public class ProductController {
         return imageModels;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getAllProducts")
     public ResponseEntity<List<Product>> getAllProducts(){
         return new ResponseEntity<>(productService.getAllProducts(),HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/deleteProduct/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Integer id){
         try {
@@ -77,4 +82,16 @@ public class ProductController {
         }
 
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/getProductbyId/{productId}")
+    public ResponseEntity<?> getProductbyId(@PathVariable Integer productId){
+        try{
+            return new ResponseEntity<>(productService.getProductbyId(productId),HttpStatus.OK);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND );
+        }
+    }
+
 }

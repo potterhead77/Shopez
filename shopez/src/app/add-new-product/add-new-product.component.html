@@ -33,7 +33,8 @@
                     </mat-form-field>
                     <div class="d-flex justify-content-end gap-2 mt-3">
                         <button mat-stroked-button color="primary" style="margin-right: 3px;">Clear</button>
-                        <button mat-stroked-button type="submit" color="primary">Add Product</button>
+                        <button mat-stroked-button type="submit" *ngIf="isNewProduct" color="primary">Add Product</button>
+                        <button mat-stroked-button type="submit" *ngIf="!isNewProduct" color="primary">Update Product</button>
                     </div>
                 </form>
             </div>

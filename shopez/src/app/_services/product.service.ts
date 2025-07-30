@@ -24,5 +24,11 @@ export class ProductService {
     });
   }
 
+  public getProductbyId(productId: number): Observable<Product>{
+    return this.httpClient.get<Product>("http://localhost:8080/getProductbyId/"+productId,{
+      responseType: 'json'
+    });
+  }
+
 
 }
