@@ -1,6 +1,28 @@
 <div class="container mt-5">
-    <div class="card text-center" style="padding: 20 px;">
-        <h1>This is Homepage</h1>
-    </div>
-    
+    <mat-grid-list cols="4" rowHeight="350px" gutterSize="24">
+        <mat-grid-tile *ngFor="let p of productDetails">
+            <div class="home-page-product-card" style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 18px; display: flex; flex-direction: column; align-items: center;">
+                <img 
+                    *ngIf="p.productImages && p.productImages.length > 0" 
+                    [src]="p.productImages[0].url"
+                    alt="{{ p.productName }}"
+                    style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 16px;"
+                />
+              
+                <p style="font-weight: 600; font-size: 1.1rem; margin-bottom: 8px; text-align: center;">{{ p.productName }}</p>
+                <p style="font-size: 0.98rem; color: #555; margin-bottom: 12px; text-align: center;">
+                    {{ p.productDescription }}
+                </p>
+                <p style="font-size: 1rem; margin-bottom: 0;">
+                    <span style="font-weight: 200; color: #011001;">₹{{ p.productDiscountedPrice }}</span>
+                    <span style="text-decoration: line-through; color: #888; font-size: 0.95rem; margin-left: 8px;">
+                        ₹{{ p.productActualPrice }}
+                    </span>
+                </p>
+                <div style="margin-top: 16px;">
+                    <button mat-raised-button color="warn" style="width: 120px;" (click)="showProductDetails(p.productId)">View Details</button>
+                </div>
+            </div>
+        </mat-grid-tile>    
+    </mat-grid-list>
 </div>

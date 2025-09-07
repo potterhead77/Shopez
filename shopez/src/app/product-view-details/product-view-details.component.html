@@ -1,0 +1,38 @@
+<div class="container mt-5" *ngIf="product">
+  <div class="row" style="display: flex; justify-content: center;">
+    
+    <!-- Product Image -->
+    <div class="col-md-5" style="display: flex; align-items: center; justify-content: center;">
+      <img
+        *ngIf="product.productImages && product.productImages.length > 0 && product.productImages[0].url"
+        [src]="product.productImages[0].url"
+        [alt]="product.productName || 'Product Image'"
+        style="width: 100%; max-width: 400px; height: auto; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);"
+      />
+    </div>
+
+    <!-- Product Details -->
+    <div class="col-md-7" style="display: flex; flex-direction: column; justify-content: center;">
+      <h3 style="font-weight: 600;">{{ product.productName || 'Product Name' }}</h3>
+      
+      <div style="margin-bottom: 16px;">
+        <span style="font-size: 1.1rem; color: #333;">Description:</span>
+        <p style="font-size: 1rem; color: #555;">{{ product.productDescription || 'No description available.' }}</p>
+      </div>
+      
+      <div style="margin-bottom: 24px;">
+        <span style="font-size: 1.2rem; font-weight: 600; color: #011001;">
+          Rs. {{ product.productDiscountedPrice || 'N/A' }}
+        </span>
+        <span *ngIf="product.productActualPrice"
+          style="text-decoration: line-through; color: #888; font-size: 1rem; margin-left: 12px;">
+          {{ product.productActualPrice }}
+        </span>
+      </div>
+
+      <button mat-raised-button color="warn" style="width: 160px; font-size: 1.1rem;">
+        Buy Now
+      </button>
+    </div>
+  </div>
+</div>

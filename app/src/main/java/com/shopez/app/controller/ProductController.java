@@ -65,7 +65,6 @@ public class ProductController {
         return imageModels;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getAllProducts")
     public ResponseEntity<List<Product>> getAllProducts(){
         return new ResponseEntity<>(productService.getAllProducts(),HttpStatus.OK);
@@ -83,7 +82,6 @@ public class ProductController {
 
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getProductbyId/{productId}")
     public ResponseEntity<?> getProductbyId(@PathVariable Integer productId){
         try{

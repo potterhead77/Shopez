@@ -1,0 +1,10 @@
+mat-grid-tile{
+    border: 1px solid lightgrey;
+}
+
+.row home-page-product-image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}

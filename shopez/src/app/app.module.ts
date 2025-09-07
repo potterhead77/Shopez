@@ -34,6 +34,7 @@ import {
   MatDialogTitle,
   MatDialogContent,
 } from '@angular/material/dialog';
+import { ProductViewDetailsComponent } from './product-view-details/product-view-details.component';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import {
     DragDirective,
     ShowProductDetailsComponent,
     ShowProductImagesDialogComponent,
+    ProductViewDetailsComponent,
   ],
   imports: [
     BrowserModule,
