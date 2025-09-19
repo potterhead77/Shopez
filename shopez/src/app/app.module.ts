@@ -35,6 +35,7 @@ import {
   MatDialogContent,
 } from '@angular/material/dialog';
 import { ProductViewDetailsComponent } from './product-view-details/product-view-details.component';
+import { BuyProductComponent } from './buy-product/buy-product.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { ProductViewDetailsComponent } from './product-view-details/product-view
     ShowProductDetailsComponent,
     ShowProductImagesDialogComponent,
     ProductViewDetailsComponent,
+    BuyProductComponent,
   ],
   imports: [
     BrowserModule,

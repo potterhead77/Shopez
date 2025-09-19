@@ -92,4 +92,14 @@ public class ProductController {
         }
     }
 
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/getProductDetails/{isSingleProductCheckout}/{productId}" )
+    public ResponseEntity<List<Product>> getProductDetails(@PathVariable(name = "isSingleProductCheckout") Boolean isSingleProductCheckout, @PathVariable(name = "productId") Integer productId) {
+        List<Product> products = productService.getProductDetails(isSingleProductCheckout, productId);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+
+
+
 }

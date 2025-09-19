@@ -5,6 +5,7 @@ import com.shopez.app.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -40,5 +41,18 @@ public class ProductService {
 
     public Product getProductbyId(Integer productId) {
         return productDao.findById(productId).orElseThrow(()-> new NoSuchElementException("Product does not exist"+productId));
+    }
+
+    public List<Product> getProductDetails(Boolean isSingleProductCheckout, Integer productId) {
+        if(isSingleProductCheckout){
+            List<Product> list = new ArrayList<>();
+            Product product = productDao.findById(productId).orElseThrow(() -> new NoSuchElementException("Product does not exist " + productId));
+            list.add(product);
+            return list;
+        }
+        else{
+            return new ArrayList<>();
+        }
+
     }
 }

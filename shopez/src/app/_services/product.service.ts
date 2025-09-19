@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../_model/product.model';
 import { Observable } from 'rxjs';
+import { OrderDetails } from '../_model/order-details-model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,18 @@ export class ProductService {
   public getProductbyId(productId: number): Observable<Product>{
     return this.httpClient.get<Product>("http://localhost:8080/getProductbyId/"+productId,{
       responseType: 'json'
+    });
+  }
+
+  public getProductDetails(isSingleProductCheckout: boolean ,productId: number ): Observable<Product[]> {
+    return this.httpClient.get<Product[]>("http://localhost:8080/getProductDetails/"+isSingleProductCheckout+"/"+productId,{
+      responseType: 'json'
+    });
+  }
+  
+  public placeOrder(orderDetails: OrderDetails): Observable<string> {
+    return this.httpClient.post("http://localhost:8080/placeOrder", orderDetails, {
+      responseType: 'text'
     });
   }
 
