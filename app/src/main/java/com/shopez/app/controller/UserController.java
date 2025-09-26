@@ -12,7 +12,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-        @PostMapping("/registerNewUser")
+    @PostMapping("/registerNewUser")
     public User registerNewUser(@RequestBody User user) {
         System.out.println("Received registration request: " + user);
         User saved = userService.registerUser(user);

@@ -1,0 +1,15 @@
+table {
+  margin-top: 10px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+table th, table td {
+  padding: 12px 18px;   /* More spacing */
+  font-size: 15px;
+}
+
+thead th {
+  background-color: #f8f9fa; /* Light header (Bootstrap style) */
+  font-weight: 600;
+}
