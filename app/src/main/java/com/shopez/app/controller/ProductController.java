@@ -66,8 +66,8 @@ public class ProductController {
     }
 
     @GetMapping("/getAllProducts")
-    public ResponseEntity<List<Product>> getAllProducts(){
-        return new ResponseEntity<>(productService.getAllProducts(),HttpStatus.OK);
+    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "") String searchKey){
+        return new ResponseEntity<>(productService.getAllProducts(pageNumber,searchKey),HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -98,6 +98,8 @@ public class ProductController {
         List<Product> products = productService.getProductDetails(isSingleProductCheckout, productId);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
+
+
 
 
 

@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit{
+
     constructor(private userService: UserService,
       private userAuthService :UserAuthService,
       private router: Router
@@ -37,6 +38,10 @@ export class LoginComponent implements OnInit{
           console.log(error);
         } 
       )
+    }
+
+    registeruser() {
+      this.router.navigate(['/register']);
     }
 
 }

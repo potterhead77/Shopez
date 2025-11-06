@@ -33,7 +33,7 @@ public class WebSecurityConfiguration {
                 .sessionManagement(session->session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))// or enable and configure properly
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/registerNewUser","/authenticate","/getAllProducts","/getProductbyId/{productId}").permitAll()
+                        .requestMatchers("/registerNewUser","/authenticate","/getAllProducts**","/getProductbyId/{productId}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login.disable());

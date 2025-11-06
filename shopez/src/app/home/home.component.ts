@@ -13,8 +13,9 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-
+  pageNumber: number = 0;
   productDetails: Product[] = []; 
+  showLoadButton: boolean = false;
 
   constructor(private productService: ProductService,
               private imageProcessingService: ImageProcessingService,
@@ -25,8 +26,8 @@ export class HomeComponent implements OnInit {
        this.getAllProducts();
   }
 
-  public getAllProducts(){
-    this.productService.getAllProducts()
+  public getAllProducts(searchKey: string=""): void {
+    this.productService.getAllProducts(this.pageNumber, searchKey)
         .pipe(
                   map((x: Product[],i)=> x.map((product: Product)=> this.imageProcessingService.createImages(product))
                 ) 
@@ -34,7 +35,13 @@ export class HomeComponent implements OnInit {
         .subscribe(
                 (resp: Product[]) =>{
                   console.log(resp);
-                  this.productDetails = [...resp];
+                  if(resp.length == 12){
+                    this.showLoadButton = true;
+                  }
+                  else{
+                    this.showLoadButton = false;
+                  }
+                  resp.forEach(p => this.productDetails.push(p));
                 },
                 (error: HttpErrorResponse) =>{
                   console.log(error);
@@ -49,5 +56,15 @@ export class HomeComponent implements OnInit {
     } else {
       throw new Error('Invalid product ID');
     }
+  }
+  loadMoreProducts() {
+    this.pageNumber=this.pageNumber+1;
+    this.getAllProducts();
+  }
+
+  searchByKeyword(searchKey : string){
+    this.pageNumber = 0;
+    this.productDetails = [];
+    this.getAllProducts(searchKey);
   }
 }

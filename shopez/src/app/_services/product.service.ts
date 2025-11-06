@@ -15,8 +15,10 @@ export class ProductService {
     return this.httpClient.post<Product>("http://localhost:8080/addNewProduct",product);
   }
 
-  public getAllProducts(){
-    return this.httpClient.get<Product[]>("http://localhost:8080/getAllProducts")
+  public getAllProducts(pageNumber: number,searchKeyword: string=""): Observable<Product[]>{
+    return this.httpClient.get<Product[]>("http://localhost:8080/getAllProducts?pageNumber=" + pageNumber + "&searchKey=" + searchKeyword,{
+      responseType: 'json'
+    });
   }
 
   public deleteProduct(productId: number): Observable<string> {
@@ -40,6 +42,18 @@ export class ProductService {
   public placeOrder(orderDetails: OrderDetails): Observable<string> {
     return this.httpClient.post("http://localhost:8080/placeOrder", orderDetails, {
       responseType: 'text'
+    });
+  }
+
+  public addToCart(productId: number) : Observable<string> {
+    return this.httpClient.get("http://localhost:8080/addToCart/"+productId, {
+      responseType: 'text'
+    });
+  }
+
+  public getCartDetails(): Observable<Product[]> {
+    return this.httpClient.get<Product[]>("http://localhost:8080/getCartDetails", {
+      responseType: 'json'
     });
   }
 

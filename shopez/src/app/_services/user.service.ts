@@ -40,4 +40,8 @@ export class UserService {
       return false;
   }
 
+  public registerUser(registerData: { userName: string; userPassword: string, userEmail: string}){
+    return this.htppclient.post(this.PATH_OF_API+ "/registerNewUser",registerData,{headers: this.requestHeader});
+  } 
+
 }
